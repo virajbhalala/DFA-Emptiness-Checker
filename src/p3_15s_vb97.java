@@ -10,14 +10,15 @@ public class p3_15s_vb97 {
 	//start state
 	public static String Q_o="";
 	//final state
-	public static String F="";
+	public static List<String> F = new ArrayList<String>();
 	
-	
+	//made just to use later in algorithm's iterations
 	public static List<String> S = new ArrayList<String>();
 	//public static List<String> statesList =new ArrayList<String>();
 	public static List<String> alphabetsList =new ArrayList<String>();
 	public static String [] array1;
 	public static String[][] array2;
+	public static String[][] table;
 	
 	
 	public static void main(String[] args){
@@ -57,21 +58,21 @@ public class p3_15s_vb97 {
 		
 		temp=temp.substring(3);
 		
-		F=temp.substring(1, temp.indexOf('}'));
+		F=Arrays.asList(temp.substring(1, temp.indexOf('}')));
 		System.out.println("List of accepting states: "+F + "\n");
 		//parsing ends
-		
+		System.out.println(DFAchecker());
 		
 	}
 
-	
+	public static List<String> eachTransition;
 	public static void PrintTransition(){
 		
 		/*
 		 * breaking each state and letter and placing them in 2D array starts here
 		 */
 		//System.out.println(transitionString);
-		List<String> eachTransition = new ArrayList<String>();
+		eachTransition = new ArrayList<String>();
 		array1=transitionString.split("[)],");
 		List<String> TempList =new ArrayList<String>();
 		array2= new String [array1.length][3];
@@ -106,7 +107,7 @@ public class p3_15s_vb97 {
 		 */
 		
 		//did +1 so that first colum can be written as states and heading
-		String[][] table = new String[Q.size()+1][alphabet.size()+1];
+		table= new String[Q.size()+1][alphabet.size()+1];
 		//fills up the header
 		table[0][0] = "states";
 		for (int i=0; i<alphabet.size();i++){
@@ -154,16 +155,33 @@ public class p3_15s_vb97 {
 	 * Below method use the algorithms from the slide 4-11 
 	 */
 	
-	public boolean DFAchecker(){
+	public static boolean DFAchecker(){
 		// Step 1 of the algorithms: check the start state
 		if (Q_o.compareTo("q0")!=0){
 			return false;
 		}
+		S.clear();
+		S.add(Q_o);
 		
 		//itererate length of Q times (step 2 of the Algorithms)
 		for (int i=0; i<Q.size();i++){
+			for (int j=0; j<F.size();j++){
+				if(S.contains(F.get(j))){
+					return false;
+				}
+			}
+			//add states to S that can be reached from current states by transition 
+			for (String x:S){
+				//System.out.println(x);
+				for(int k =0; k<Q.size();k++){	
+					if(x.compareTo(table[k+1][0])==0){
+						
+					}
+				}
+			}
 			
 		}
+		
 		return false;
 	}
 	
