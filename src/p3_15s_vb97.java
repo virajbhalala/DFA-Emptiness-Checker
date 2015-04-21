@@ -15,7 +15,10 @@ public class p3_15s_vb97 {
 	public static List<String> S = new ArrayList<String>();
 	public static List<String> statesList =new ArrayList<String>();
 	public static List<String> alphabetsList =new ArrayList<String>();
-	public static String [] a=alphabet.split(",");
+	public static String [] array1;
+	public static String[][] array2 = new String [100][100];
+	
+	
 	public static void main(String[] args){
 		Scanner s =new Scanner(System.in);
 		//assumed user input DFA in the given format.
@@ -39,8 +42,8 @@ public class p3_15s_vb97 {
 		
 		alphabet=temp.substring(1, temp.indexOf('}'));
 		System.out.println("List of Symbols in Aplhabet: "+ alphabet + "\n");
-		a=alphabet.split(",");
-		alphabetsList= Arrays.asList(a);
+		array1=alphabet.split(",");
+		alphabetsList= Arrays.asList(array1);
 		//System.out.println ("test: " + alphabetsList);
 		
 		temp=temp.substring(temp.indexOf('}')+2);
@@ -77,17 +80,31 @@ public class p3_15s_vb97 {
 		System.out.println(transition);
 		System.out.println("state \t" + alphabetsList.get(0) + "\t" + alphabetsList.get(1));
 		List<String> eachTransition = new ArrayList<String>();
-		a=transition.split("[)],");
-		for (int i=0; i<a.length; i++){
-			if (i==a.length-1){
-				a[i]=a[i].substring(1, a[i].length()-1);
+		array1=transition.split("[)],");
+		List<String> TempList =new ArrayList<String>();
+		Arrays.fill(array2[0], null);		
+		for (int i=0; i<array1.length; i++){
+			//System.out.println(array1.length);
+			if (i==array1.length-1){
+				array1[i]=array1[i].substring(1, array1[i].length()-1);
+				TempList=Arrays.asList(array1[i].split(","));
+				
 			}
-			else
-				a[i]=a[i].substring(1);
-			System.out.println(a[i]);
+			else{
+				array1[i]=array1[i].substring(1);
+				TempList=Arrays.asList(array1[i].split(","));				
+			}
+
+			for (int j =0; j<TempList.size(); j++){
+				
+				array2[i][j] = TempList.get(j);
+				//System.out.print(array2[i][j] + "\t");
+			}
+			System.out.println();
 		}
-		eachTransition = Arrays.asList(a);
-		//System.out.println(eachTransition);
+		
+		
+		eachTransition = Arrays.asList(array1);
 		  
 		  
 		  
