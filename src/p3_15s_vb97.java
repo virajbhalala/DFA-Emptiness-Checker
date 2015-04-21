@@ -17,7 +17,7 @@ public class p3_15s_vb97 {
 	//public static List<String> statesList =new ArrayList<String>();
 	public static List<String> alphabetsList =new ArrayList<String>();
 	public static String [] array1;
-	public static String[][] array2 = new String [100][100];
+	public static String[][] array2;
 	
 	
 	public static void main(String[] args){
@@ -65,17 +65,16 @@ public class p3_15s_vb97 {
 	}
 
 	
-	public static void PrintTransition(//String transition,List<String> statesList, List<String> alphabetsList 
-			){
+	public static void PrintTransition(){
 		
 		/*
 		 * breaking each state and letter and placing them in 2D array starts here
 		 */
 		//System.out.println(transitionString);
-		//System.out.println("state \t" + alphabet.get(0) + "\t" + alphabet.get(1));
 		List<String> eachTransition = new ArrayList<String>();
 		array1=transitionString.split("[)],");
 		List<String> TempList =new ArrayList<String>();
+		array2= new String [array1.length][3];
 		Arrays.fill(array2[0], null);		
 		for (int i=0; i<array1.length; i++){
 			//System.out.println(array1.length);
@@ -92,16 +91,16 @@ public class p3_15s_vb97 {
 			for (int j =0; j<TempList.size(); j++){
 				
 				array2[i][j] = TempList.get(j);
-				//System.out.print(array2[i][j] + "\t");
+				System.out.print(array2[i][j] + "\t");
 			}
-			//System.out.println();
+			System.out.println();
 		}
 		/*
 		 * Ends here
 		 */
 		
 		/*
-		 * Making transition table starts here
+		 * Constructing transition table starts here
 		 */
 		
 		//did +1 so that first colum can be written as states and heading
@@ -113,10 +112,40 @@ public class p3_15s_vb97 {
 		}
 		System.out.println(table[0][0] +"\t"+table[0][1] +"\t"+table[0][2]);
 		
-		//fills up the lsft side
+		//fills up the left side (states)
 		for (int i=0; i<Q.size();i++){
 			table[i+1][0]= Q.get(i);
+		}	
+		for (int i=1; i<table.length;i++){
+			
+			for(int j=0; j<array2.length;j++){
+				
+				if(table[i][0].compareTo(array2[j][0])==0){
+
+					//if so then check the if symbols are same
+					for(int k =0; k<alphabet.size();k++){
+						if(table[0][k+1].compareTo(array2[j][1])==0){
+							//if so then copy the state (where it goes to after reading symbol) into the  table in specific column 
+							table[i][k+1] =array2[j][2];	
+						}
+					}
+				}
+			}
+			//prints each line
+			for (int c=0; c<table[i].length;c++){
+				System.out.print(table[i][c] +"\t");
+			}
+			//after printing go to the next line
+			System.out.println();
 		}
+		
+		/*
+		 * Constructing and printing transition table ends here
+		 */
+		
+			
+	
+		
 		
 		
 		eachTransition = Arrays.asList(array1);
