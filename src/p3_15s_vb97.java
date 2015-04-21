@@ -5,7 +5,6 @@ public class p3_15s_vb97 {
 	public static String Q="";
 	//here alphabet=sigma notation
 	public static String alphabet="";
-	//here transition =delta notation
 	public static String transition="";
 	//start state
 	public static String Q_o="";
@@ -16,7 +15,7 @@ public class p3_15s_vb97 {
 	public static List<String> S = new ArrayList<String>();
 	public static List<String> statesList =new ArrayList<String>();
 	public static List<String> alphabetsList =new ArrayList<String>();
-	
+	public static String [] a=alphabet.split(",");
 	public static void main(String[] args){
 		Scanner s =new Scanner(System.in);
 		//assumed user input DFA in the given format.
@@ -31,12 +30,16 @@ public class p3_15s_vb97 {
 		Q =temp.substring(1, temp.indexOf('}'));
 		System.out.println("List of States in Q: "+Q +"\n");
 		
+		statesList= Arrays.asList(Q);
+		System.out.println ("test: " + statesList);
+		
+		
 		// added +2 so that it skips begining ",{"
 		temp=temp.substring(temp.indexOf('}')+2);
 		
 		alphabet=temp.substring(1, temp.indexOf('}'));
 		System.out.println("List of Symbols in Aplhabet: "+ alphabet + "\n");
-		String [] a=alphabet.split(",");
+		a=alphabet.split(",");
 		alphabetsList= Arrays.asList(a);
 		//System.out.println ("test: " + alphabetsList);
 		
@@ -44,16 +47,20 @@ public class p3_15s_vb97 {
 		
 		//transition part starts here
 		transition=temp.substring(1, temp.indexOf('}'));
-		System.out.println(transition);
-
-		System.out.println("state \t" + alphabetsList.get(0) + "\t" + alphabetsList.get(1) +"\n");
+		
+		PrintTransition();
+		
+		//printing transition table
+		//System.out.println("state \t" + alphabetsList.get(0) + "\t" + alphabetsList.get(1));
+		
+		
 		
 		
 		//transition part ends here
 		temp=temp.substring(temp.indexOf('}')+2);
 		
 		Q_o=temp.substring(0, 2);
-		System.out.println("Starting state: "+Q_o + "\n");
+		System.out.println("Starting state: "+ Q_o + "\n");
 		
 		temp=temp.substring(3);
 		
@@ -64,5 +71,27 @@ public class p3_15s_vb97 {
 		
 	}
 
+	
+	public static void PrintTransition(//String transition,List<String> statesList, List<String> alphabetsList 
+			){
+		System.out.println(transition);
+		System.out.println("state \t" + alphabetsList.get(0) + "\t" + alphabetsList.get(1));
+		List<String> eachTransition = new ArrayList<String>();
+		a=transition.split("[)],");
+		for (int i=0; i<a.length; i++){
+			if (i==a.length-1){
+				a[i]=a[i].substring(1, a[i].length()-1);
+			}
+			else
+				a[i]=a[i].substring(1);
+			System.out.println(a[i]);
+		}
+		eachTransition = Arrays.asList(a);
+		//System.out.println(eachTransition);
+		  
+		  
+		  
+		  
+	}
 
 }
