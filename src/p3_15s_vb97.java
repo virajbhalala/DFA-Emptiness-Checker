@@ -93,10 +93,10 @@ public class p3_15s_vb97 {
 				
 				array2[i][j] = TempList.get(j);
 				/*uncomment it if you want to print transition in table table style*/
-				//System.out.print(array2[i][j] + "\t");
+				System.out.print(array2[i][j] + "\t");
 			}
 			/*uncomment it if you want to print transition in table table style*/
-			//System.out.println();
+			System.out.println();
 		}
 		/*
 		 * Parsing and separating states for transition ends here
@@ -156,6 +156,7 @@ public class p3_15s_vb97 {
 	 */
 	
 	public static boolean DFAchecker(){
+		//System.out.println(array2[4][0]);
 		// Step 1 of the algorithms: check the start state
 		if (Q_o.compareTo("q0")!=0){
 			return false;
@@ -171,14 +172,25 @@ public class p3_15s_vb97 {
 				}
 			}
 			//add states to S that can be reached from current states by transition 
+			String temp ="";
 			for (String x:S){
 				//System.out.println(x);
 				for(int k =0; k<Q.size();k++){	
 					if(x.compareTo(table[k+1][0])==0){
-						
+						for (int l=0; l<array1.length; l++){
+							if(x.compareTo(array2[l][0])==0){
+								for (int z=0; z<alphabet.size();z++){
+									if(array2[l][1].compareTo(table[0][z+1])==0){
+										temp= table[k+1][z+1];
+										System.out.println("added "+table[k+1][z+1]);
+									}
+								}		
+							}
+						}
 					}
 				}
 			}
+			S.add(temp);
 			
 		}
 		
