@@ -91,12 +91,14 @@ public class p3_15s_vb97 {
 			for (int j =0; j<TempList.size(); j++){
 				
 				array2[i][j] = TempList.get(j);
-				System.out.print(array2[i][j] + "\t");
+				/*uncomment it if you want to print transition in table table style*/
+				//System.out.print(array2[i][j] + "\t");
 			}
-			System.out.println();
+			/*uncomment it if you want to print transition in table table style*/
+			//System.out.println();
 		}
 		/*
-		 * Ends here
+		 * Parsing and separating states for transition ends here
 		 */
 		
 		/*
@@ -142,17 +144,27 @@ public class p3_15s_vb97 {
 		/*
 		 * Constructing and printing transition table ends here
 		 */
-		
-			
-	
-		
-		
-		
+		System.out.println();
 		eachTransition = Arrays.asList(array1);
-		 
-		  
-		  
-		  
+  
 	}
-
+	
+	/*
+	 * Most important stuffs happens after this line
+	 * Below method use the algorithms from the slide 4-11 
+	 */
+	
+	public boolean DFAchecker(){
+		// Step 1 of the algorithms: check the start state
+		if (Q_o.compareTo("q0")!=0){
+			return false;
+		}
+		
+		//itererate length of Q times (step 2 of the Algorithms)
+		for (int i=0; i<Q.size();i++){
+			
+		}
+		return false;
+	}
+	
 }
