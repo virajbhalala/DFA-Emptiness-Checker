@@ -193,8 +193,13 @@ public class p3_15s_vb97 {
 			S.add(temp);
 			
 		}
-		
-		return false;
+		// last step of the algorithm to check if F and S have anything in common. If they have then reject
+		for (int j=0; j<F.size();j++){
+			if(S.contains(F.get(j))){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 }
