@@ -1,8 +1,4 @@
-/*Viraj Bhalala
-CS 341
-Project 3
-ID 31250806
-*/
+/*Authon: Viraj Bhalala */
 
 
 import java.util.*;
@@ -21,26 +17,20 @@ public class p3_15s_vb97 {
 	
 	//made just to use later in algorithm's iterations
 	public static ArrayList<String> S = new ArrayList<String>();
-	//public static List<String> statesList =new ArrayList<String>();
 	public static ArrayList<String> alphabetsList =new ArrayList<String>();
 	public static String [] array1;
 	public static String[][] array2;
 	public static String[][] table;
-		
-	
 	
 	public static void main(String[] args){
-		
 		Scanner s =new Scanner(System.in);
 		//assumed user input DFA in the given format.
 		System.out.println("Do you want to enter an input? Please enter \"y\" or \"yes\"");
-		
 		String inputYN = s.nextLine();
 		System.out.println("You entered: "+ inputYN);
 		if (inputYN.compareTo("y")==0 || inputYN.compareTo("yes")==0){
 			System.out.println("Please input DFA");
 			String input = s.nextLine();
-			
 			System.out.println("You entered: "+ input + "\n");
 			
 			//copies the input
@@ -48,42 +38,32 @@ public class p3_15s_vb97 {
 			
 			//parsing begins here
 			String [] temp1=temp.substring(1, temp.indexOf('}')).split(",");
-			for (int i=0;i<temp1.length;i++){
-				Q.add(temp1[i]);
-			}
+			for (int i=0;i<temp1.length;i++){ Q.add(temp1[i]);}
 			//Q =Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
 			System.out.println("List of States in Q: "+Q +"\n");
 					
-			
 			// added +2 so that it skips begining ",{"
 			temp=temp.substring(temp.indexOf('}')+2);
 			
 			String [] temp2=temp.substring(1, temp.indexOf('}')).split(",");
-			for (int i=0;i<temp2.length;i++){
-				alphabet.add(temp2[i]);
-			}
+			for (int i=0;i<temp2.length;i++){ alphabet.add(temp2[i]);}
 			//alphabet=Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
 			System.out.println("List of Symbols in Language: "+ alphabet + "\n");
-
 			
 			temp=temp.substring(temp.indexOf('}')+2);
 
 			transitionString=temp.substring(1, temp.indexOf('}'));
-			
+			//prints the table
 			PrintTransition();
 		
 			temp=temp.substring(temp.indexOf('}')+2);
-			
 			Q_o=temp.substring(0, 2);
 			System.out.println("Starting state: "+ Q_o + "\n");
 			
 			temp=temp.substring(3);
-			
 			String [] temp3=temp.substring(1, temp.indexOf('}')).split(",");
-			for (int i=0;i<temp3.length;i++){
-				F.add(temp3[i]);
-			}
-			//F=Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
+			for (int i=0;i<temp3.length;i++){F.add(temp3[i]);}
+			
 			System.out.println("List of accepting states: "+F + "\n");
 			//parsing ends
 			S.add(Q_o);
@@ -97,6 +77,7 @@ public class p3_15s_vb97 {
 			}
 			main(args);
 		}
+		//when input is something other then y or yes
 		else
 			System.out.println("terminating");
 	}
@@ -104,16 +85,13 @@ public class p3_15s_vb97 {
 	public static List<String> eachTransition;
 	public static void PrintTransition(){
 		
-		/*
-		 * breaking each state and letter and placing them in 2D array starts here
-		 */
+		/* breaking each state and letter and placing them in 2D array starts here*/
 		eachTransition = new ArrayList<String>();
 		array1=transitionString.split("[)],");
 		List<String> TempList =new ArrayList<String>();
 		array2= new String [array1.length][3];
 		Arrays.fill(array2[0], null);		
 		for (int i=0; i<array1.length; i++){
-			//System.out.println(array1.length);
 			if (i==array1.length-1){
 				array1[i]=array1[i].substring(1, array1[i].length()-1);
 				TempList=Arrays.asList(array1[i].split(","));
@@ -124,7 +102,6 @@ public class p3_15s_vb97 {
 			}
 
 			for (int j =0; j<TempList.size(); j++){
-				
 				array2[i][j] = TempList.get(j);
 				/*uncomment it if you want to print transition in table table style*/
 				//System.out.print(array2[i][j] + "\t");
@@ -135,10 +112,9 @@ public class p3_15s_vb97 {
 		
 		System.out.println();
 		/*Parsing and separating states for transition ends here*/
-		
 		/*Constructing transition table starts here*/
 		
-		//did +1 so that first colum can be written as states and heading
+		//added +1 so that first column can be written as states and heading
 		table= new String[Q.size()+1][alphabet.size()+1];
 		//fills up the header
 		table[0][0] = "states";
@@ -152,11 +128,8 @@ public class p3_15s_vb97 {
 			table[i+1][0]= Q.get(i);
 		}	
 		for (int i=1; i<table.length;i++){
-			
 			for(int j=0; j<array2.length;j++){
-				
 				if(table[i][0].compareTo(array2[j][0])==0){
-
 					//if so then check the if symbols are same
 					for(int k =0; k<alphabet.size();k++){
 						if(table[0][k+1].compareTo(array2[j][1])==0){
@@ -170,13 +143,11 @@ public class p3_15s_vb97 {
 			for (int c=0; c<table[i].length;c++){
 				System.out.print(table[i][c] +"\t");
 			}
-			//after printing go to the next line
+			//after printing each line go to the next line
 			System.out.println();
 		}
 		
-		/*
-		 * Constructing and printing transition table ends here
-		 */
+		/*Constructing and printing transition table ends here */
 		System.out.println();
 		eachTransition = Arrays.asList(array1);
 	}
@@ -200,6 +171,7 @@ public class p3_15s_vb97 {
 			//check if anything from F is in S (step 2 A for the Algorithms)
 			for (int j=0; j<F.size();j++){
 				if(S.contains(F.get(j))){
+					//clear everything before returning
 					clear();
 					return false;
 				}
@@ -239,7 +211,6 @@ public class p3_15s_vb97 {
 			if(S.contains(F.get(j))){
 				clear();
 				return false;
-				
 			}
 		}
 		clear();
