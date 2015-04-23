@@ -1,68 +1,104 @@
+/*Viraj Bhalala
+CS 341
+Project 3
+ID 31250806
+*/
+
+
 import java.util.*;
 public class p3_15s_vb97 {
 	
 	//5 items
 	//public static String Q="";
-	public static List<String> Q = new ArrayList<String>();
+	public static ArrayList<String> Q = new ArrayList<String>();
 	//here alphabet=sigma notation
-	public static List<String> alphabet = new ArrayList<String>();
+	public static ArrayList<String> alphabet = new ArrayList<String>();
 	public static String transitionString="";
 	//start state
 	public static String Q_o="";
 	//final state
-	public static List<String> F = new ArrayList<String>();
+	public static ArrayList<String> F = new ArrayList<String>();
 	
 	//made just to use later in algorithm's iterations
-	public static List<String> S = new ArrayList<String>();
+	public static ArrayList<String> S = new ArrayList<String>();
 	//public static List<String> statesList =new ArrayList<String>();
-	public static List<String> alphabetsList =new ArrayList<String>();
+	public static ArrayList<String> alphabetsList =new ArrayList<String>();
 	public static String [] array1;
 	public static String[][] array2;
 	public static String[][] table;
+		
 	
 	
 	public static void main(String[] args){
+		
 		Scanner s =new Scanner(System.in);
 		//assumed user input DFA in the given format.
-		String input = s.nextLine();
-		System.out.println(input + "\n");
+		System.out.println("Do you want to enter an input? Please enter \"y\" or \"yes\"");
 		
-		//copies the input
-		String temp =input;
-		//{q0,q1,...,qn},{l1,l2,...,lr},{(q0,l1,qi0,1),(q0,l2,qi0,2),...,(qn,lr,qin,r)},q0,{qj1,qj2,...,qjs}
-		
-		//parsing begins here
-		Q =Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
-		System.out.println("List of States in Q: "+Q +"\n");
-				
-		
-		// added +2 so that it skips begining ",{"
-		temp=temp.substring(temp.indexOf('}')+2);
-		
-		alphabet=Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
-		System.out.println("List of Symbols in Language: "+ alphabet + "\n");
-		//array1=alphabet.split(",");
-		//alphabetsList= Arrays.asList(array1);
-		//System.out.println ("test: " + alphabetsList);
-		
-		temp=temp.substring(temp.indexOf('}')+2);
+		String inputYN = s.nextLine();
+		System.out.println("You entered: "+ inputYN);
+		if (inputYN.compareTo("y")==0 || inputYN.compareTo("yes")==0){
+			System.out.println("Please input DFA");
+			String input = s.nextLine();
+			
+			System.out.println("You entered: "+ input + "\n");
+			
+			//copies the input
+			String temp =input;
+			
+			//parsing begins here
+			String [] temp1=temp.substring(1, temp.indexOf('}')).split(",");
+			for (int i=0;i<temp1.length;i++){
+				Q.add(temp1[i]);
+			}
+			//Q =Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
+			System.out.println("List of States in Q: "+Q +"\n");
+					
+			
+			// added +2 so that it skips begining ",{"
+			temp=temp.substring(temp.indexOf('}')+2);
+			
+			String [] temp2=temp.substring(1, temp.indexOf('}')).split(",");
+			for (int i=0;i<temp2.length;i++){
+				alphabet.add(temp2[i]);
+			}
+			//alphabet=Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
+			System.out.println("List of Symbols in Language: "+ alphabet + "\n");
 
-		transitionString=temp.substring(1, temp.indexOf('}'));
+			
+			temp=temp.substring(temp.indexOf('}')+2);
+
+			transitionString=temp.substring(1, temp.indexOf('}'));
+			
+			PrintTransition();
 		
-		PrintTransition();
-	
-		temp=temp.substring(temp.indexOf('}')+2);
-		
-		Q_o=temp.substring(0, 2);
-		System.out.println("Starting state: "+ Q_o + "\n");
-		
-		temp=temp.substring(3);
-		
-		F=Arrays.asList(temp.substring(1, temp.indexOf('}')));
-		System.out.println("List of accepting states: "+F + "\n");
-		//parsing ends
-		System.out.println(DFAchecker());
-		
+			temp=temp.substring(temp.indexOf('}')+2);
+			
+			Q_o=temp.substring(0, 2);
+			System.out.println("Starting state: "+ Q_o + "\n");
+			
+			temp=temp.substring(3);
+			
+			String [] temp3=temp.substring(1, temp.indexOf('}')).split(",");
+			for (int i=0;i<temp3.length;i++){
+				F.add(temp3[i]);
+			}
+			//F=Arrays.asList(temp.substring(1, temp.indexOf('}')).split(","));
+			System.out.println("List of accepting states: "+F + "\n");
+			//parsing ends
+			S.add(Q_o);
+			
+			
+			if (DFAchecker()==true){
+				System.out.println("ACCEPTED"+"\n" +"\n");
+			}
+			else{
+				System.out.println("REJECTED" +"\n"+"\n");
+			}
+			main(args);
+		}
+		else
+			System.out.println("terminating");
 	}
 
 	public static List<String> eachTransition;
@@ -71,7 +107,6 @@ public class p3_15s_vb97 {
 		/*
 		 * breaking each state and letter and placing them in 2D array starts here
 		 */
-		//System.out.println(transitionString);
 		eachTransition = new ArrayList<String>();
 		array1=transitionString.split("[)],");
 		List<String> TempList =new ArrayList<String>();
@@ -82,7 +117,6 @@ public class p3_15s_vb97 {
 			if (i==array1.length-1){
 				array1[i]=array1[i].substring(1, array1[i].length()-1);
 				TempList=Arrays.asList(array1[i].split(","));
-				
 			}
 			else{
 				array1[i]=array1[i].substring(1);
@@ -93,18 +127,16 @@ public class p3_15s_vb97 {
 				
 				array2[i][j] = TempList.get(j);
 				/*uncomment it if you want to print transition in table table style*/
-				System.out.print(array2[i][j] + "\t");
+				//System.out.print(array2[i][j] + "\t");
 			}
 			/*uncomment it if you want to print transition in table table style*/
-			System.out.println();
+			//System.out.println();
 		}
-		/*
-		 * Parsing and separating states for transition ends here
-		 */
 		
-		/*
-		 * Constructing transition table starts here
-		 */
+		System.out.println();
+		/*Parsing and separating states for transition ends here*/
+		
+		/*Constructing transition table starts here*/
 		
 		//did +1 so that first colum can be written as states and heading
 		table= new String[Q.size()+1][alphabet.size()+1];
@@ -147,59 +179,84 @@ public class p3_15s_vb97 {
 		 */
 		System.out.println();
 		eachTransition = Arrays.asList(array1);
-  
 	}
 	
 	/*
 	 * Most important stuffs happens after this line
 	 * Below method use the algorithms from the slide 4-11 
 	 */
+	public static List<String> tempList =new ArrayList<String>();
 	
 	public static boolean DFAchecker(){
-		//System.out.println(array2[4][0]);
 		// Step 1 of the algorithms: check the start state
-		if (Q_o.compareTo("q0")!=0){
+		if (!S.contains("q0")){
+			clear();
 			return false;
 		}
-		S.clear();
-		S.add(Q_o);
-		
+
+		System.out.println("[S] initially: "+S);
 		//itererate length of Q times (step 2 of the Algorithms)
 		for (int i=0; i<Q.size();i++){
+			//check if anything from F is in S (step 2 A for the Algorithms)
 			for (int j=0; j<F.size();j++){
 				if(S.contains(F.get(j))){
+					clear();
 					return false;
 				}
 			}
-			//add states to S that can be reached from current states by transition 
-			String temp ="";
-			for (String x:S){
-				//System.out.println(x);
-				for(int k =0; k<Q.size();k++){	
-					if(x.compareTo(table[k+1][0])==0){
-						for (int l=0; l<array1.length; l++){
-							if(x.compareTo(array2[l][0])==0){
-								for (int z=0; z<alphabet.size();z++){
-									if(array2[l][1].compareTo(table[0][z+1])==0){
-										temp= table[k+1][z+1];
-										System.out.println("added "+table[k+1][z+1]);
-									}
-								}		
+			
+			//add states to S that can be reached from current states by transition 					
+			//compare the state that is just added with the other state in first column in the transition table
+			//and the states that can be reached using transition table
+			
+			//for each S	
+			for(int p=0;p<S.size();p++)	{
+				for(int k =0; k<Q.size();k++){
+					//compare it with first column in transition table
+					if (table[k+1][0].compareTo(S.get(p)) ==0){
+						//add that row
+						for (int c=0; c<alphabet.size();c++){
+							if(!S.contains(table[k+1][c+1])){
+								//tempList will hold that states temporarily
+								tempList.add(table[k+1][c+1]);			
 							}
 						}
 					}
 				}
 			}
-			S.add(temp);
-			
+			for(String l: tempList){
+				if (!S.contains(l))
+				S.add(l);
+			}
+			//after each iteration print the list
+			System.out.println(S);
+			//clear the tempList to use it again another time
+			tempList.clear();
 		}
+		
 		// last step of the algorithm to check if F and S have anything in common. If they have then reject
 		for (int j=0; j<F.size();j++){
 			if(S.contains(F.get(j))){
+				clear();
 				return false;
+				
 			}
 		}
+		clear();
 		return true;
 	}
 	
+	//used as clearing list after finishing each input and output
+	public static void clear(){
+		Q.clear();
+		alphabet.clear();
+		transitionString="";
+		Q_o="";
+		F.clear();
+		S.clear();
+		alphabetsList.clear();
+		Arrays.fill(array2, null);
+		Arrays.fill(array1, null);
+		Arrays.fill(table, null);
+	}
 }
